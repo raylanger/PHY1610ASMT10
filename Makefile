@@ -5,8 +5,20 @@
 CXX=g++
 CXXFLAGS=-O3 -march=native
 OBJS=gameof1d.o fillcells.o updatecells.o outputcells.o
+LDLIBS=-lCatch2Main -lCatch2 
 
 all: gameof1d originalgameof1d
+
+test: integrated_test run_fillcells_c2
+
+run_fillcells_c2: fillcells_c2
+	./fillcells_c2 -s
+
+fillcells_c2: fillcells_c2.o fillcells.o
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+fillcells_c2.o: fillcells_c2.cpp fillcells.h celltype.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 integrated_test: originaltestoutput.txt testoutput.txt
 	diff originaltestoutput.txt testoutput.txt
