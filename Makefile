@@ -9,7 +9,7 @@ LDLIBS=-lCatch2Main -lCatch2
 
 all: gameof1d originalgameof1d
 
-test: integrated_test run_fillcells_c2 run_outputcells_c2
+test: integrated_test run_fillcells_c2 run_outputcells_c2 run_updatecells_c2
 
 run_fillcells_c2: fillcells_c2 
 	./fillcells_c2 -s
@@ -18,6 +18,15 @@ fillcells_c2: fillcells_c2.o fillcells.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 fillcells_c2.o: fillcells_c2.cpp fillcells.h celltype.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+run_updatecells_c2: updatecells_c2 
+	./updatecells_c2 -s
+
+updatecells_c2: updatecells_c2.o updatecells.o
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+updatecells_c2.o: updatecells_c2.cpp updatecells.h celltype.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 run_outputcells_c2: outputcells_c2
@@ -60,5 +69,7 @@ run: gameof1d
 	./gameof1d
 
 clean:
-	$(RM) $(OBJS) fillcells_c2.o  outputcells_c2.o
+	$(RM) $(OBJS) fillcells_c2.o  outputcells_c2.o updatecells_c2.o
 
+distclean: clean
+	$(RM) fillcells_c2 gameof1d originalgameof1d outputcells_c2 updatecells_c2 originaltestoutput.txt testoutput.txt
