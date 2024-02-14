@@ -45,13 +45,13 @@ TEST_CASE("quarter fill")
         }
     }
 }
-#include <iostream>
-TEST_CASE("tenth fill")
+
+TEST_CASE("partial fill")
 {
-    for (int numcells = 0; numcells < 16; numcells+=10) {
-        Cells tenth = initial_cells(numcells, 0.15);
+    for (int numcells = 0; numcells < 16; numcells++) {
+        Cells partial = initial_cells(numcells, 0.15);
         int sum = 0;
-        for (bool s: tenth) 
+        for (bool s: partial) 
             if (s) sum++;
         REQUIRE(sum == int(0.15*numcells));
     }
