@@ -20,7 +20,7 @@ bool next_cell_state(const Cells& cell_state, int row_index, int col_index) {
             // note: the modulus operator (%) enforces periodic boundary
             // conditions
             if (cell_state[(row_index+i+num_rows)%num_rows]
-                [(col_index+j+num_cols)%num_cols] == alive)
+                          [(col_index+j+num_cols)%num_cols] == alive)
                 alive_neighbours++;
         }
     }

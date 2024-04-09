@@ -11,8 +11,8 @@
 
 void output_cells(std::ostream& out, int step, const Cells& cell)
 {
-    int num_rows = cell.extent(0);
-    int num_cols = cell.extent(1);
+    const int num_rows = cell.extent(0);
+    const int num_cols = cell.extent(1);
     const char on_char = 'I', off_char = '-';
     double alive_fraction = 0.0;
     for (auto& onecell: cell)
@@ -39,17 +39,20 @@ void output_cells(std::ostream& out, int step, const Cells& cell)
 
 void output_alive_cells(std::ostream& out, int step, const Cells& cell)
 {
-    const bool* linearcells = cell.data();
+    const int num_rows = cell.extent(0);
+    const int num_cols = cell.extent(1);
     double alive_fraction = 0.0;
-    for (long long i = 0; i < cell.size(); i++)
-        alive_fraction += linearcells[i];
+    for (auto& onecell: cell)
+        if (onecell == alive)
+            alive_fraction++;
     rvector<int> alive_list(alive_fraction);
     int n = 0;
-    for (long long i = 0; i < cell.size(); i++)
-        if (linearcells[i] == alive) 
-            alive_list[n++] = i;
+    for (int i = 0; i < num_rows; i++)
+        for (int j = 0; j < num_cols; j++)
+	    if (cell[i][j] == alive) 
+		alive_list[n++] = i*num_cols + j;
     alive_fraction /= cell.size();
-    out << step << "\t/";    
+    out << step << "\t/";
     for (const auto& x: alive_list)
         out << x << '/';
     out << "\t" << alive_fraction << "\n";
