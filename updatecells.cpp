@@ -10,31 +10,36 @@
 #include "updatecells.h"
 
 // Determine next state of a single cell based on the state of all the cells
-bool next_cell_state(const Cells& cell_state, int cell_index) {
-    int num_cells = cell_state.size();
+bool next_cell_state(const Cells& cell_state, int row_index, int col_index) {
+    int num_rows = cell_state.extent(0);
+    int num_cols = cell_state.extent(1);
     int alive_neighbours = 0;
-    for (int j = 1; j <= 2; j++) {
-        // note: the modulus operator (%) enforces periodic boundary
-        // conditions
-        if (cell_state[(cell_index+j+num_cells)%num_cells] == alive)
-            alive_neighbours++;
-        if (cell_state[(cell_index-j+num_cells)%num_cells] == alive)
-            alive_neighbours++;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (i==0 and j==0) continue; // do not count yourself
+            // note: the modulus operator (%) enforces periodic boundary
+            // conditions
+            if (cell_state[(row_index+i+num_rows)%num_rows]
+                [(col_index+j+num_cols)%num_cols] == alive)
+                alive_neighbours++;
+        }
     }
-    if (cell_state[cell_index] == alive  and
-        (alive_neighbours == 2 or alive_neighbours == 4))
+    if (cell_state[row_index][col_index] == alive and
+        (alive_neighbours == 2 or alive_neighbours == 3))
         return alive;
-    else if (cell_state[cell_index] == dead  and
-               (alive_neighbours == 2 or alive_neighbours == 3))
+    else if (cell_state[row_index][col_index] == dead and
+             (alive_neighbours == 3))
         return alive;
     else
         return dead;
 }
 
 Cells update_all_cells(const Cells& oldcell) {
-    int num_cells = oldcell.size(); 
-    Cells newcell(num_cells);
-    for (int i = 0; i < num_cells; i++) 
-        newcell[i] = next_cell_state(oldcell, i);
+    int num_rows = oldcell.extent(0);
+    int num_cols = oldcell.extent(1);
+    Cells newcell(num_rows, num_cols);
+    for (int i = 0; i < num_rows; i++) 
+        for (int j = 0; j < num_cols; j++) 
+            newcell[i][j] = next_cell_state(oldcell, i, j);
     return newcell;
 }

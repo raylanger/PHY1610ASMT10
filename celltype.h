@@ -13,10 +13,10 @@
 
 // We use bool to store the state of each cell, but for convenience define the following
 
-#include <vector>
+#include <rarray>
 
 const bool alive = true;
 const bool dead = false;
-using Cells = std::vector<bool>;
+using Cells = rmatrix<bool>;
 
 #endif

@@ -1,15 +1,15 @@
-# Makefile for gameof1d
+# Makefile for gameoflife
 #
-# Part of assignment 3 for 2024 PHY1610
+# Starter code for assignment 10 for 2024 PHY1610
 #
 CXX=g++
-CXXFLAGS=-O0 -g  -march=native -Wall
-OBJS=gameof1d.o fillcells.o updatecells.o outputcells.o
-LDLIBS=-lCatch2Main -lCatch2 
+CXXFLAGS=-O3 -g -march=native -Wall -fopenmp
+OBJS=gameoflife.o fillcells.o updatecells.o outputcells.o
+LDLIBS= -fopenmp -lCatch2Main -lCatch2
 
-all: gameof1d originalgameof1d
+all: gameoflife
 
-test: integrated_test run_fillcells_c2 run_outputcells_c2 run_updatecells_c2
+test: run_fillcells_c2 run_outputcells_c2 run_updatecells_c2
 
 run_fillcells_c2: fillcells_c2 
 	./fillcells_c2 -s
@@ -38,22 +38,10 @@ outputcells_c2: outputcells_c2.o outputcells.o
 outputcells_c2.o: outputcells_c2.cpp outputcells.h celltype.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-integrated_test: originaltestoutput.txt testoutput.txt
-	diff originaltestoutput.txt testoutput.txt
-
-originaltestoutput.txt: originalgameof1d
-	./originalgameof1d > originaltestoutput.txt
-
-testoutput.txt: gameof1d
-	./gameof1d > testoutput.txt
-
-originalgameof1d: originalgameof1d.cpp
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
-gameof1d: $(OBJS)
+gameoflife: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
-gameof1d.o: gameof1d.cpp fillcells.h updatecells.h outputcells.h celltype.h
+gameoflife.o: gameoflife.cpp fillcells.h updatecells.h outputcells.h celltype.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $< 
 
 fillcells.o: fillcells.cpp fillcells.h celltype.h
@@ -65,11 +53,11 @@ updatecells.o: updatecells.cpp updatecells.h celltype.h
 outputcells.o: outputcells.cpp outputcells.h celltype.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-run: gameof1d
-	./gameof1d
+run: gameoflife
+	./gameoflife
 
 clean:
 	$(RM) $(OBJS) fillcells_c2.o  outputcells_c2.o updatecells_c2.o
 
 distclean: clean
-	$(RM) fillcells_c2 gameof1d originalgameof1d outputcells_c2 updatecells_c2 originaltestoutput.txt testoutput.txt
+	$(RM) fillcells_c2 gameoflife outputcells_c2 updatecells_c2

@@ -2,25 +2,27 @@
 // 
 // See filecells.h for documentation
 //
-// This code is part of assignment 3 of the 2024 Winter PHY1610 course.
+// This code is part of assignment 10 of the 2024 Winter PHY1610 course.
 //
 // Ramses van Zon, 2024, University of Toronto
 // 
 
 #include "fillcells.h"
 
-Cells initial_cells(int num_cells, double target_alive_fraction)
+Cells initial_cells(int num_rows,
+                    int num_columns,
+                    double target_alive_fraction)
 {
-    Cells cell(num_cells);
+    Cells cell(num_rows, num_columns);
     // Fill cells such that the fraction of alive cells is approximately target_alive_fraction.
     double fill = 0.0;
-    for (int i = 0; i < num_cells; i++) {
+    for (int i = 0; i < cell.size(); i++) {
         fill += target_alive_fraction;
         if (fill >= 1.0) {
-            cell[i] = alive;
+            cell.data()[i] = alive;
             fill -= 1.0;
         } else
-            cell[i] = dead;
+            cell.data()[i] = dead;
     }
     return cell;
 }

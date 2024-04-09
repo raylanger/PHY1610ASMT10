@@ -14,13 +14,14 @@
 
 // Fill cells such that the fraction of alive cells is approximately
 // target_alive_fraction. Approximately, because the fraction might not 
-// be expressible as a fraction with a denominator of num_cells. 
+// be expressible as a fraction with a denominator of the size.
 //
-// @param  num_cells              the number of cells to generate
+// @param  num_rows               the number of row 
+// @param  num_columns            the number of columns
 // @param  target_alive_fraction  the fraction of cells to be alive
 //
 // @returns a 1d array of cells that are alive or dead.
 //
-Cells initial_cells(int num_cells, double target_alive_fraction);
+Cells initial_cells(int num_rows, int num_columns, double target_alive_fraction);
 
 #endif
