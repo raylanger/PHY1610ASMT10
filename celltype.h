@@ -3,7 +3,7 @@
 // Header only modules hat defines a type to hold the cell values and
 // the constants alive and dead
 //
-// This code is part of assignment 3 of the 2024 Winter PHY1610 course.
+// This code is part of assignment 10 of the 2024 Winter PHY1610 course.
 //
 // Ramses van Zon, 2024, University of Toronto
 // 

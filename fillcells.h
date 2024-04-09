@@ -1,8 +1,8 @@
 // fillcells.h
 //
-// Contains an initialization routine for a one-dimensional array of cells 
+// Contains an initialization routine for a two-dimensional array of cells 
 //
-// This code is part of assignment 3 of the 2024 Winter PHY1610 course.
+// This code is part of assignment 10 of the 2024 Winter PHY1610 course.
 //
 // Ramses van Zon, 2024, University of Toronto
 // 
