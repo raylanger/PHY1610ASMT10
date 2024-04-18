@@ -59,7 +59,7 @@ fillcells.o: fillcells.cpp fillcells.h celltype.h
 updatecells.o: updatecells_new.cpp updatecells.h celltype.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-outputcells.o: outputcells.cpp outputcells.h celltype.h
+outputcells.o: outputcells_new.cpp outputcells.h celltype.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 gameoflife0: gameoflife.o fillcells.o updatecells.o outputcells.o

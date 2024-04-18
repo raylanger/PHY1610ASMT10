@@ -12,6 +12,7 @@
 
 #include "celltype.h"
 #include <ostream>
+#include <omp.h>
 
 // Output time step, state of cells, and fraction of alive cells.
 // The first line has the timestep, the state of row[0], & the fraction;
