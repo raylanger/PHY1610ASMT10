@@ -55,9 +55,11 @@ void output_alive_cells(std::ostream& out, int step, const Cells& cell)
             for (int j = 0; j < num_cols; j++)
             if (cell[i][j] == alive) 
             #pragma omp critical
-            alive_list[n++] = i*num_cols + j;
-        
+            alive_list[n++] = i*num_cols + j;   
     }
+    
+    std::sort(alive_list.begin(), alive_list.end());
+
     alive_fraction /= cell.size();
     out << step << "\t/";
     for (const auto& x: alive_list)

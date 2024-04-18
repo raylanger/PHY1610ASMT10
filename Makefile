@@ -15,7 +15,7 @@ integrated_test: originaltestoutput.txt testoutput.txt
 	diff originaltestoutput.txt testoutput.txt
 
 originaltestoutput.txt: gameoflife0
-	./gameoflife 6 70 20 0.158 1 > originaltestoutput.txt 
+	./gameoflife0 6 70 20 0.158 1 > originaltestoutput.txt 
 
 testoutput.txt: gameoflife
 	./gameoflife 6 70 20 0.158 1 > testoutput.txt
@@ -62,7 +62,7 @@ updatecells.o: updatecells_new.cpp updatecells.h celltype.h
 outputcells.o: outputcells_new.cpp outputcells.h celltype.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-gameoflife0: gameoflife.o fillcells.o updatecells.o outputcells.o
+gameoflife0: gameoflife0.o fillcells0.o updatecells0.o outputcells0.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 gameoflife0.o: gameoflife.cpp fillcells.h updatecells.h outputcells.h celltype.h
