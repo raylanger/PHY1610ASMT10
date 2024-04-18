@@ -11,6 +11,7 @@
 #define UPDATECELLSH
 
 #include "celltype.h"
+#include <omp.h>
 
 // Determine next state of all cells based on the state of all the cells
 //
