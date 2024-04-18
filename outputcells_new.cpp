@@ -42,21 +42,23 @@ void output_alive_cells(std::ostream& out, int step, const Cells& cell)
     const int num_rows = cell.extent(0);
     const int num_cols = cell.extent(1);
     double alive_fraction = 0.0;
+    #pragma omp parallel for default(none) shared(cell) reduction(+:alive_fraction)
     for (auto& onecell: cell)
         if (onecell == alive)
             alive_fraction++;
+
     rvector<int> alive_list(alive_fraction);
     int n = 0;
 
-    #pragma omp parallel default(none) shared(n, num_rows, num_cols, cell, alive_list)
-    {   
-        #pragma omp for
-        for (int i = 0; i < num_rows; i++)
-            for (int j = 0; j < num_cols; j++)
-            if (cell[i][j] == alive) 
-            #pragma omp critical
-            alive_list[n++] = i*num_cols + j;   
-    }
+    #pragma omp parallel for default(none) shared(n, num_rows, num_cols, cell, alive_list)
+        for (int i = 0; i < num_rows; i++){
+            for (int j = 0; j < num_cols; j++){
+            if (cell[i][j] == alive) {  
+                #pragma omp atomic update
+                alive_list[n++] = i*num_cols + j;  
+                }
+            } 
+        }
     
     std::sort(alive_list.begin(), alive_list.end());
 
