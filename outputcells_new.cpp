@@ -51,13 +51,11 @@ void output_alive_cells(std::ostream& out, int step, const Cells& cell)
     int n = 0;
 
     #pragma omp parallel for default(none) shared(n, num_rows, num_cols, cell, alive_list)
-    {   
-        for (int i = 0; i < num_rows; i++)
-            for (int j = 0; j < num_cols; j++)
-            if (cell[i][j] == alive) 
-            #pragma omp critical
-            alive_list[n++] = i*num_cols + j;   
-    }
+    for (int i = 0; i < num_rows; i++)
+        for (int j = 0; j < num_cols; j++)
+        if (cell[i][j] == alive) 
+        #pragma omp critical
+        alive_list[n++] = i*num_cols + j;   
     
     std::sort(alive_list.begin(), alive_list.end());
 
