@@ -39,23 +39,13 @@ Cells update_all_cells(const Cells& oldcell) {
     int num_cols = oldcell.extent(1);
     Cells newcell(num_rows, num_cols);
 
-    int nthreads, t, colmin, colmax;
-
     #pragma omp parallel \
                 default(none) \
-                shared(nthreads, newcell, num_rows, num_cols, oldcell) \
-                private(t,colmin,colmax)
+                shared(num_rows, num_cols, newcell, oldcell) 
     {
-        t = omp_get_thread_num();
-        if(t==0) nthreads = omp_get_num_threads();
-
-        colmin = (t*num_cols)/nthreads;
-        colmax = ((t+1)*num_cols)/nthreads;
-
-        if(t==nthreads-1) colmax = num_cols;
-
+        #pragma omp for
         for (int i = 0; i < num_rows; i++) 
-            for (int j = colmin; j < colmax; j++) 
+            for (int j = 0; j < num_cols; j++) 
                 newcell[i][j] = next_cell_state(oldcell, i, j);
     }
 
